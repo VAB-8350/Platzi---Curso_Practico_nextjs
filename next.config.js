@@ -1,12 +1,19 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    remotePatterns: [{
-        hostname: 'api.lorem.space' 
-    }],
-    domains: ['placeimg.com']
-  }
-}
+const withPWA = require('next-pwa')({
+	dest: 'public',
+	register: true,
+	mode: 'production',
+	disable: false,
+})
 
-module.exports = nextConfig
+module.exports = withPWA({
+	reactStrictMode: true,
+	images: {
+		remotePatterns: [
+			{
+				hostname: 'api.lorem.space',
+			},
+		],
+		domains: ['placeimg.com'],
+	},
+});
