@@ -1,0 +1,35 @@
+import React, { useContext } from 'react';
+import Image from 'next/image';
+import AppContext from '@context/AppContext';
+import addCart from '@icons/bt_add_to_cart.svg';
+import iconBtAddedCart from '@icons/bt_added_to_cart.svg';
+import styles from '@styles/ProductItem.module.scss';
+
+const ProductItem = ({ product }) => {
+	const { state, addToCart, removeFromCart } = useContext(AppContext);
+
+	const handleClick = (item) => {
+		beCart() ? removeFromCart(item) : addToCart(item);
+	};
+
+	const beCart = () => {
+		return !!state.cart?.find((item) => item.id === product.id);
+	};
+
+	return (
+		<div className={styles.ProductItem}>
+			<Image src={product?.images[0]} alt={product.title} width={100} height={100} layout="responsive" />
+			<div className={styles['product-info']}>
+				<div>
+					<p>${product.price}</p>
+					<p>{product.title}</p>
+				</div>
+				<figure onClick={() => handleClick(product)} onKeyDown={() => handleClick(product)} role="presentation">
+					{beCart() ? <Image src={iconBtAddedCart} alt="remove to cart" /> : <Image src={addCart} alt="add to cart" />}
+				</figure>
+			</div>
+		</div>
+	);
+};
+
+export default ProductItem;
